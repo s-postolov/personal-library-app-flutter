@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:personal_library_app/providers/library_providers.dart';
 
 class LibraryListScreen extends ConsumerWidget{
@@ -10,7 +11,15 @@ class LibraryListScreen extends ConsumerWidget{
     final entriesAsync = ref.watch(libraryEntriesProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('My Library'),),
+      appBar: AppBar(
+        title: const Text('My Library'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () => context.push('/add'),
+          ),
+        ],
+      ),
       body: entriesAsync.when(
         data: (entries) {
           if (entries.isEmpty) {
@@ -23,6 +32,7 @@ class LibraryListScreen extends ConsumerWidget{
               return ListTile(
                 title: Text(entry.title),
                 subtitle: Text(entry.status.name),
+                onTap: () => context.push('/entry/${entry.id}'),
               );
             },
           );
