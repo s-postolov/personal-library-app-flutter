@@ -22,3 +22,11 @@ final libraryEntriesProvider = FutureProvider<List<LibraryEntry>>((ref) async {
   final service = ref.watch(libraryApiServiceProvider);
   return service.getAll();
 });
+
+final libraryEntryProvider = FutureProvider.family<LibraryEntry, int>((
+  ref,
+  id,
+) async {
+  final service = ref.watch(libraryApiServiceProvider);
+  return service.getOne(id);
+});
